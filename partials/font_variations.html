@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="font-variations">
+    <div class="breadcrumb">
+      <a href="#" ng-click="gotoFontList()">Browse fonts</a> &gt; {{fontFamily.name}}
+    </div>
+    <div class="main-heading">
+      <h1>{{fontFamily.name}} <small>by {{getFoundryName()}}</small></h1>
+    </div>
+    <div class="header-tab">
+      <div class="selected-tab">Font</div>
+    </div>
+    <div class="variation-controls">
+      <div class="variation-sample-text-wrapper">
+          <input type="text" class="sample-text-input" ng-model="currentSampleText" tk-focus /><button class="variations-sample-select-btn" ng-click="toggleShowSampleTexts($event)">Edit</button>
+          <div class="variation-sample-drop-down" ng-show="showSampleTexts">
+            <div class="variations-sample-text" ng-repeat="sampleText in sampleTexts" ng-click="selectSampleText($index)">
+              {{sampleText}}
+            </div>
+          </div>
+      </div>
+    </div>
+    <div ng-repeat="font in fonts" class='variation-cards'>
+      <div class="variation-card">
+        <div class="variation-card-head">
+          {{font.name}}
+        </div>
+        <div class="sample-text"
+            style="
+              font-family: {{font.family.web_id}};
+              font-style: {{getVariantStyle(font.font.web.fvd)}};
+              font-weight: {{getVariantWeight(font.font.web.fvd)}};"
+            >
+            {{currentSampleText}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
