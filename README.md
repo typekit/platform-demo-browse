@@ -14,7 +14,7 @@ This app is built to validate the Typekit Platform API and set an example to sho
 ### Installation
 * You need to have `grunt cli` tool first. If you already have it, skip this step
 ```
-$ npm install -g grunt-cli 
+$ npm install -g grunt-cli
 ```
 * You need `grunt` installed:
 ```
@@ -24,4 +24,4 @@ $ npm install
 ```
 $ grunt
 ```
-* Go [`http://localhost:8080`](http://localhost:8080) in the browser
+* Go [`http://localhost:8433`](http://localhost:8433) in the browser

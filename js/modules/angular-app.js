@@ -1,4 +1,5 @@
 var angular = require('angular');
+var context = require('./demo-app-context');
 require('angular-route');
 
 var app = angular.module('demoApp', ['ngRoute']);
@@ -35,6 +36,12 @@ app.service('fontService', function(){
     },
     setTypekitAPI: function(api) {
       typekitAPI = api;
+    },
+    handleError: function(errorMessage, dataToLogToConsole) {
+      console.log(dataToLogToConsole || errorMessage);
+      if (errorMessage) {
+        alert(errorMessage);
+      }
     }
   }
 });

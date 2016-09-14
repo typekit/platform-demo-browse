@@ -1,5 +1,7 @@
-var familiesEndpoint = 'https://cctypekit-relstage.adobe.io/v1/families';
-var filtersEndpoint = 'https://cctypekit-relstage.adobe.io/v1/filters';
+var baseAPIUrl = 'https://cctypekit.adobe.io/v1/';
+var familiesEndpoint = baseAPIUrl + 'families';
+var filtersEndpoint = baseAPIUrl + 'filters';
+var previewsEndpoint = baseAPIUrl + 'previews';
 
 var TypekitJS = function(accessToken, apiKey, browseMode) {
   var self = this;
@@ -32,6 +34,20 @@ var TypekitJS = function(accessToken, apiKey, browseMode) {
     params = params || {};
     setBrowseMode(params);
     networkHelper.get(filtersEndpoint, params, null, function(result) {
+      processResult(result, callback);
+    });
+  }
+
+  /**
+   *
+  */
+  this.getPreviews = function(params, callback) {
+    params = params || {};
+    if (params.hasOwnProperty('browse_mode') && params.browse_mode === 'japanese') {
+      params.language = 'ja';
+    }
+    setBrowseMode(params);
+    networkHelper.get(previewsEndpoint, params, null, function(result){
       processResult(result, callback);
     });
   }

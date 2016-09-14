@@ -13,7 +13,7 @@
       <div class="variation-sample-text-wrapper">
           <input type="text" class="sample-text-input" ng-model="currentSampleText" tk-focus /><button class="variations-sample-select-btn" ng-click="toggleShowSampleTexts($event)">Edit</button>
           <div class="variation-sample-drop-down" ng-show="showSampleTexts">
-            <div class="variations-sample-text" ng-repeat="sampleText in sampleTexts" ng-click="selectSampleText($index)">
+            <div class="variations-sample-text" ng-repeat="sampleText in sampleTexts track by $index" ng-click="selectSampleText($index)">
               {{sampleText}}
             </div>
           </div>

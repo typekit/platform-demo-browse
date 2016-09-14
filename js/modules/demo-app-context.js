@@ -1,4 +1,4 @@
-const japaneseModeStr = 'japanese';
+var japaneseModeStr = 'japanese';
 
 module.exports = {
   browseMode: null,

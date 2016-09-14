@@ -1,8 +1,6 @@
 var app = require('./angular-app');
 var context = require('./demo-app-context');
 
-var japaneseSampleText = '新しい時代のこころを映すタイプフェイスデザイン';
-
 app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontService',
   function($scope, $http, $location, fontService){
     $scope.gotoFontList = function() {
@@ -22,18 +20,7 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
     $scope.showSampleTexts = false;
     $scope.fonts = [];
     $scope.fontFamily = fontService.getCurrentFontFamily();
-    $scope.sampleTexts = context.isJapaneseBrowseMode() ? [
-      'Enter your own text',
-      japaneseSampleText
-    ] : [
-      'Enter your own text',
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz',
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-      'abcdefghijklmnopqrstuvwxyz',
-      'The quick brown fox jumps over the lazy dog',
-      '0123456789',
-      '? ! & @ ‘ ’ “ ” % * # $ £ € / ( ) [ ] { } . ,'
-    ];
+    $scope.sampleTexts = [ 'Enter your own text' ];
     $scope.selectedSampleTextIndex = 1;
 
     $scope.currentSampleText = $scope.sampleTexts[$scope.selectedSampleTextIndex];
@@ -49,6 +36,22 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
       }
     }
     var typekitAPI = fontService.getTypekitAPI();
+
+    typekitAPI.getPreviews(
+      {
+        type: 'details',
+        browse_mode: context.isJapaneseBrowseMode() ? 'japanese' : 'default'
+      },
+      function(result) {
+        if (result.error) {
+          var msg = 'Error getting preview samples';
+          fontService.handleError(msg, [msg, result]);
+          return;
+        }
+        $scope.sampleTexts = $scope.sampleTexts.slice(0,1).concat(result.data);
+        $scope.currentSampleText = $scope.sampleTexts[$scope.selectedSampleTextIndex];
+      }
+    );
 
     $scope.getVariantStyle = function(fvd) {
       var fvd = fvd;
@@ -91,8 +94,7 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
       typekitAPI.getFontFamilySlug($scope.fontFamily.slug, function(result){
         if (result.error) {
           var msg = 'Error getting font variations';
-          console.log(msg, result.error);
-          alert(msg);
+          fontService.handleError(msg, [msg, result]);
           return;
         }
 

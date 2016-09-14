@@ -2,7 +2,7 @@
   "use strict"
 
   window.adobeid = {
-    client_id: 'TypeKit2',
+    client_id: 'TypekitSwaggerUI',
     onReady: function() {
       try {
         var userProfile = adobeIMS.getUserProfile();
@@ -25,9 +25,9 @@
     },
     uses_debug_mode: true,
     // OTHER FREQUENTLY USED OPTIONS:
-    scope: 'creative_cloud,sao.typekit,openid,sao.cce_private,AdobeID,gnav,additional_info.roles', //-- default profile, plus date of birth
+    scope: 'tk_platform,tk_platform_mp,tk_platform_sync',
     locale: 'en_US',
-    ssoLoginUrl: 'http://localhost:8080?handle_sso_login',
-    ssoLogoutUrl: 'http://localhost:8080?handle_sso_logout',
+    ssoLoginUrl: 'https://localhost:8443?handle_sso_login',
+    ssoLogoutUrl: 'https://localhost:8443?handle_sso_logout',
   };
 })();

@@ -151,10 +151,6 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       $scope.loadNext();
     };
 
-    $scope.getSampleText = function() {
-      return context.isJapaneseBrowseMode() ? '永あ' : 'The quick brown fox jumps over the lazy dog';
-    }
-
     $scope.isJapaneseMode = function() {
       return japaneseMode;
     }
@@ -164,6 +160,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
         return;
       }
       context.setJapaneseMode(toJapanese);
+      updateSampleText();
       setCurrentPage(1);
       resetScrollPos();
       loadFilters();
@@ -179,14 +176,31 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       return '';
     }
 
+    function updateSampleText() {
+      typekitAPI.getPreviews(
+        {
+          browse_mode: context.isJapaneseBrowseMode() ? 'japanese' : 'default'
+        },
+        function(result) {
+          if (result.error) {
+            var msg = 'Error getting preview samples';
+            fontService.handleError(msg, [msg, result]);
+            return;
+          }
+          if (result.data.length > 0) {
+            $scope.sampleText = result.data[0];
+          }
+        }
+      );
+    }
+
     function loadFilters() {
       typekitAPI.getFilters({
           browse_mode: context.browseMode
         }, function(result) {
         if (result.error) {
           var msg = 'Error getting font filters';
-          console.log(msg, result.error);
-          alert(msg);
+          fontService.handleError(msg, [msg, result]);
           return;
         }
 
@@ -275,7 +289,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
 
     loadFilters();
     loadFontFamilies();
-
+    updateSampleText();
   }]
 
 );
