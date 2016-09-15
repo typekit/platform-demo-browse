@@ -26,8 +26,6 @@
     uses_debug_mode: true,
     // OTHER FREQUENTLY USED OPTIONS:
     scope: 'tk_platform,tk_platform_mp,tk_platform_sync',
-    locale: 'en_US',
-    ssoLoginUrl: 'https://localhost:8443?handle_sso_login',
-    ssoLogoutUrl: 'https://localhost:8443?handle_sso_logout',
+    locale: 'en_US'
   };
 })();

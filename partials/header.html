@@ -4,7 +4,7 @@
       <a href="/" title="Adobe Typekit Platform Demo App">Adobe Typekit Platform Demo App</a>
     </div>
     <div class="account" id="notSignedIn" ng-hide="userSignedIn">
-      <div class="account-button" onclick="adobeIMS.signIn()">SIGN IN</div>
+      <div class="account-button" onclick="adobeIMS.signIn({'redirect_uri':'https://demo.typekit.io'})">SIGN IN</div>
       <div class="account-button" onclick="adobeIMS.signUp()">SIGN UP</div>
     </div>
     <div class="account" id="signedIn" ng-show="userSignedIn">
