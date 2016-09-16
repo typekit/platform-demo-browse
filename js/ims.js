@@ -26,7 +26,6 @@
     uses_debug_mode: true,
     // OTHER FREQUENTLY USED OPTIONS:
     scope: 'openid,tk_platform,tk_platform_mp,tk_platform_sync',
-    //scope: 'creative_cloud,openid,AdobeID,tk_platform,tk_platform_mp,tk_platform_sync',
     locale: 'en_US'
   };
 })();

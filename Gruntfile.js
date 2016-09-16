@@ -62,4 +62,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.registerTask('default', ['connect', 'sass', 'autoprefixer', 'browserify', 'watch']);
+    grunt.registerTask('compile', ['autoprefixer', 'browserify']);
 }
