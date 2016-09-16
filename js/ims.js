@@ -1,5 +1,5 @@
 (function() {
-  "use strict"
+  "use strict";
 
   window.adobeid = {
     client_id: 'TypekitSwaggerUI',
@@ -25,7 +25,7 @@
     },
     uses_debug_mode: true,
     // OTHER FREQUENTLY USED OPTIONS:
-    scope: 'tk_platform,tk_platform_mp,tk_platform_sync',
+    scope: 'openid,tk_platform,tk_platform_mp,tk_platform_sync',
     locale: 'en_US'
   };
 })();

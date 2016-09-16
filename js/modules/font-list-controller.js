@@ -25,7 +25,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       if (event.data.hasOwnProperty('type') && event.data.type === 'IMSReady') {
         $scope.$apply(function() {
           $scope.imsReady = true;
-          $scope.userSignedIn = event.data.userName != null;
+          $scope.userSignedIn = !!adobeIMS.isSignedInUser();
           $scope.userName = event.data.userName || '';
         });
       }
