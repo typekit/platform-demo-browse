@@ -176,6 +176,14 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       return '';
     }
 
+    $scope.signIn = function() {
+      var imsRedirectUrl = location.protocol +
+        '//' + location.hostname +
+        (location.port.length > 0 ? (':' + location.port) : '');
+
+      adobeIMS.signIn({ redirect_uri: imsRedirectUrl });
+    }
+
     function updateSampleText() {
       typekitAPI.getPreviews(
         {
