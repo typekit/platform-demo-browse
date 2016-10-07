@@ -2,7 +2,7 @@
   "use strict";
 
   window.adobeid = {
-    client_id: 'TypekitSwaggerUI',
+    client_id: 'TypekitPlatformDemoApp',
     onReady: function() {
       try {
         var userProfile = adobeIMS.getUserProfile();

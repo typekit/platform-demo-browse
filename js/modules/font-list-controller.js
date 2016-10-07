@@ -16,7 +16,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
     var perPage = context.fontListCardsPerPage;
     var filterArray = [];
     var japaneseMode = context.isJapaneseBrowseMode();
-    var typekitAPI = new typekit.api(adobeIMS.getAccessToken(), 'TypekitSwaggerUI');
+    var typekitAPI = new typekit.api(adobeIMS.getAccessToken(), 'TypekitPlatformDemoApp');
     var restoreScrollPos = true;
 
     fontService.setTypekitAPI(typekitAPI);
