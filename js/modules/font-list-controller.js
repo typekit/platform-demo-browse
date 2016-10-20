@@ -1,6 +1,8 @@
 var app = require('./angular-app');
+var auth = require('./auth');
 var typekit = require('./typekit-api');
 var context = require('./demo-app-context');
+var utils = require('./utils');
 
 app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
   function($scope, $http, $location, fontService) {
@@ -16,7 +18,8 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
     var perPage = context.fontListCardsPerPage;
     var filterArray = [];
     var japaneseMode = context.isJapaneseBrowseMode();
-    var typekitAPI = new typekit.api(adobeIMS.getAccessToken(), 'TypekitPlatformDemoApp');
+    var typekitAPI = new typekit.api(auth.getAccessToken(), context.getClientID());
+
     var restoreScrollPos = true;
 
     fontService.setTypekitAPI(typekitAPI);
@@ -25,11 +28,23 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       if (event.data.hasOwnProperty('type') && event.data.type === 'IMSReady') {
         $scope.$apply(function() {
           $scope.imsReady = true;
-          $scope.userSignedIn = !!adobeIMS.isSignedInUser();
+          $scope.userSignedIn = !!auth.isSignedInUser();
           $scope.userName = event.data.userName || '';
         });
       }
     });
+
+    $scope.signIn = function() {
+      auth.signIn();
+    }
+
+    $scope.signOut = function() {
+      auth.signOut();
+    }
+
+    $scope.signUp = function() {
+      auth.signUp();
+    }
 
     $scope.canShowWaitingIMS = function() {
       if (!$scope.headerLoaded) {
@@ -176,14 +191,6 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       return '';
     }
 
-    $scope.signIn = function() {
-      var imsRedirectUrl = location.protocol +
-        '//' + location.hostname +
-        (location.port.length > 0 ? (':' + location.port) : '');
-
-      adobeIMS.signIn({ redirect_uri: imsRedirectUrl });
-    }
-
     function updateSampleText() {
       typekitAPI.getPreviews(
         {
@@ -192,7 +199,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
         function(result) {
           if (result.error) {
             var msg = 'Error getting preview samples';
-            fontService.handleError(msg, [msg, result]);
+            utils.handleError([msg, result], msg);
             return;
           }
           if (result.data.length > 0) {
@@ -208,7 +215,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
         }, function(result) {
         if (result.error) {
           var msg = 'Error getting font filters';
-          fontService.handleError(msg, [msg, result]);
+          utils.handleError([msg, result], msg);
           return;
         }
 

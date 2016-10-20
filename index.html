@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Platform API Browse Demo</title>
+  <base href="/">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
@@ -20,9 +21,9 @@
   <ng-view />
 
   <script src="https://use.typekit.net/previewkits/pk-v1.js"></script>
+  <!-- TODO: Loading temporary staging WebSDK link till IMS fix for pop-up login window is deployed to production -->
+  <script src="https://no1010042136149.corp.adobe.com/Stage/csdk.js"></script>
   <script src="bundle.js"></script>
-  <script src="js/ims.js"></script>
-  <script src="https://static.adobelogin.com/imslib/imslib.min.js"></script>
 
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

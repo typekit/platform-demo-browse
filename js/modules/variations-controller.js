@@ -1,5 +1,6 @@
 var app = require('./angular-app');
 var context = require('./demo-app-context');
+var utils = require('./utils');
 
 app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontService',
   function($scope, $http, $location, fontService){
@@ -45,7 +46,7 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
       function(result) {
         if (result.error) {
           var msg = 'Error getting preview samples';
-          fontService.handleError(msg, [msg, result]);
+          utils.handleError([msg, result], msg);
           return;
         }
         $scope.sampleTexts = $scope.sampleTexts.slice(0,1).concat(result.data);
@@ -94,7 +95,7 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
       typekitAPI.getFontFamilySlug($scope.fontFamily.slug, function(result){
         if (result.error) {
           var msg = 'Error getting font variations';
-          fontService.handleError(msg, [msg, result]);
+          utils.handleError([msg, result], msg);
           return;
         }
 
