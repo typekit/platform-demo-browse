@@ -1,4 +1,4 @@
-var baseAPIUrl = 'https://cctypekit-relstage.adobe.io/v1/'; //TODO: change to prod endpoint before deployment. Temporary stage endpoint now, because WebSDK staging endpoint is loaded currently to point to staging URL of IMS
+var baseAPIUrl = 'https://cctypekit.adobe.io/v1/';
 var familiesEndpoint = baseAPIUrl + 'families';
 var filtersEndpoint = baseAPIUrl + 'filters';
 var previewsEndpoint = baseAPIUrl + 'previews';

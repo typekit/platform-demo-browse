@@ -11,7 +11,7 @@ AdobeCreativeSDK.init({
     // Handle any global or config errors here
     if (error.type === AdobeCreativeSDK.ErrorTypes.AUTHENTICATION) {
       // Note: this error will occur when you try and launch a component without checking if the user has authorized your app. From here, you can trigger AdobeCreativeSDK.loginWithRedirect().
-      utils.handleError('You must be logged in to use the Creative SDK');
+      AdobeCreativeSDK.login();
     } else if (error.type === AdobeCreativeSDK.ErrorTypes.GLOBAL_CONFIGURATION) {
       utils.handleError('Error initializing AdobeCreativeSDK. Please check your configuration');
     } else if (error.type === AdobeCreativeSDK.ErrorTypes.SERVER_ERROR) {
