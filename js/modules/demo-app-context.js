@@ -6,6 +6,8 @@ module.exports = {
   fontListCardsPerPage: 16,
   lastFontListScrollPos: 0,
 
+  imsClientID : 'TypekitPlatformDemoApp', // Replace this with your client-id
+
   isJapaneseBrowseMode: function() {
     return this.browseMode === japaneseModeStr;
   },
@@ -29,5 +31,10 @@ module.exports = {
 
   restoreFontListScrollPos: function() {
     this.setFontListScrollPos(this.lastFontListScrollPos);
+  },
+
+  getClientID: function() {
+    return this.imsClientID;
   }
+
 }
