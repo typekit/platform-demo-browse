@@ -5,11 +5,11 @@
     </div>
     <div class="account" id="notSignedIn" ng-hide="userSignedIn">
       <div class="account-button" ng-click="signIn()">SIGN IN</div>
-      <div class="account-button" onclick="adobeIMS.signUp()">SIGN UP</div>
+      <div class="account-button" ng-click="signUp()">SIGN UP</div>
     </div>
     <div class="account" id="signedIn" ng-show="userSignedIn">
       <div class="welcome">Welcome,  <span id="userName" ng-bind="userName"></span></div>
-      <div class="account-button" onclick="adobeIMS.signOut()">SIGN OUT</div>
+      <div class="account-button" ng-click="signOut()">SIGN OUT</div>
     </div>
   </div>
 </div>

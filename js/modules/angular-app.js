@@ -36,12 +36,6 @@ app.service('fontService', function(){
     },
     setTypekitAPI: function(api) {
       typekitAPI = api;
-    },
-    handleError: function(errorMessage, dataToLogToConsole) {
-      console.log(dataToLogToConsole || errorMessage);
-      if (errorMessage) {
-        alert(errorMessage);
-      }
     }
   }
 });
