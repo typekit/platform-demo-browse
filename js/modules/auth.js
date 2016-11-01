@@ -5,12 +5,7 @@ var accessToken = null;
 
 var auth = {
   signIn: function() {
-    // Currently 0.3 version of WebSDK is deployed in production, which has function AdobeCreativeSDK.loginWithRedirect. This is renamed to AdobeCreativeSDK.login in the new WebSDK version, which is not deployed in production yet. So we will first check if AdobeCreativeSDK.login exists.
-    if (typeof AdobeCreativeSDK.login === 'function') {
-      AdobeCreativeSDK.login();
-    } else {
-      AdobeCreativeSDK.loginWithRedirect();
-    }
+    AdobeCreativeSDK.login();
   },
 
   signOut: function() {
