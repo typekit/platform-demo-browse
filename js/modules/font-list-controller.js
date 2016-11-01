@@ -297,8 +297,8 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
     }
 
     TypekitPreview.setup({
-      'auth_id': 'pda',
-      'auth_token': '3bb2a6e53c9684ffdc9a9bf61f5b2a62850218b0182b3a8f955d7ad2db6640a2b2439afede07515db382594b4aa69c9b8dba6a119c3868ef68dce25289909f0c743dbd98406428d26379c38714661995041ce85ee2ed4368d0a2adb574268c56502fcc6dd561f73bd2',
+      'auth_id': 'pda2',
+      'auth_token': '+dWpSpvT9ekd5/AnOgS4WnY1c0pqhwpehaQavQGfPH++6nj2gJimVtkGpB6rglRsbRFpsns6KLCHuSWmXcPLAcykN7h1qhcXRfZ6cQkJacopBI6xkhllv3GabDxNItuL',
       'default_subset': 'default',
     });
 
