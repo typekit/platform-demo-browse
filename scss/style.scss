@@ -127,11 +127,6 @@ header {
   @include content-common;
   height: 600px;
 
-  .sorting {
-    margin-bottom: 20px;
-    width: 100%;
-  }
-
   .load-more, .pagination {
     clear: both;
     height: 44px;
@@ -239,6 +234,69 @@ header {
       }
     }
   }
+
+  .search-sort-div {
+    overflow: hidden;
+    padding-bottom: 10px;
+
+    .sorting {
+      margin-bottom: 20px;
+      margin-right: 15px;
+      float: right;
+
+      .sort-by-dropdown {
+        height: 30px;
+        min-width: 100px;
+        border-radius: 5px;
+      }
+    }
+
+    .search-div {
+      float: left;
+
+      .search-input {
+        height: 40px;
+        font-family: $system;
+        font-size: 14px;
+        padding-left: 12px;
+        padding-right: 40px;
+        min-width: 630px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1) inset;
+        border-radius: 5px;
+      }
+
+      .search-btn {
+        background: #fff url(../search.svg) center no-repeat;
+        border: none;
+        cursor: pointer;
+        height: 12px;
+        opacity: .6;
+        position: relative;
+        right: 30px;
+        top: -2px;
+      }
+      .search-btn:focus {
+        outline: 0;
+      }
+      .search-btn:hover {
+        opacity: 1;
+      }
+    }
+  }
+  .no-results-div {
+    margin-bottom: 20px;
+
+    .sorry-illustration {
+      background-image: url(../search-sorry-cards.svg);
+      background-position: 0 0;
+      background-size: 682px 672px;
+      height: 150px;
+      margin-bottom: 20px;
+      width: 400px;
+    }
+  }  
 }
 
 .filters-wrapper {

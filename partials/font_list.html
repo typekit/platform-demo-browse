@@ -1,14 +1,26 @@
 <div class="container" ng-show="imsReady">
-  <div class="families">
-    <div class="sorting">
-      <label for="sort-by">Sort by:</label>
-      <select id="sort-by" ng-model="sort" ng-change="changeSort(sort)">
-        <option value="featured_rank">Featured</option>
-        <option value="newest">Newest</option>
-        <option value="alpha">Name</option>
-      </select>
-    </div>
-    <div class="card" ng-repeat="family in data | filter: searchText" ng-click="onShowFontVariations(family)">
+    <div class="families">
+      <div class="search-sort-div">
+        <div class="search-div">
+          <input type="text" class="search-input" placeholder="Search Typekit..." ng-model="searchText" ng-keyup="onSearchKeyup($event)">
+          <button class="search-btn" ng-click="search()"></button>
+        </div>
+        <div class="sorting">
+          <label for="sort-by">Sort by:</label>
+          <select id="sort-by" class="sort-by-dropdown" ng-model="sort" ng-change="changeSort(sort)">
+            <option value="featured_rank">Featured</option>
+            <option value="newest">Newest</option>
+            <option value="alpha">Name</option>
+          </select>
+        </div>
+      </div>
+      <div class="no-results-div" ng-if="fontsFetched && data.length === 0">
+          <div class="sorry-illustration"></div>
+          <h3>
+            Sorry, we couldn’t find any matches!
+          </h3>
+      </div>
+    <div class="card" ng-repeat="family in data" ng-click="onShowFontVariations(family)">
       <style>
       .wf-{{family.display_font.family.web_id}}-{{family.display_font.font.web.fvd}}-active .families .card .preview.{{family.display_font.family.web_id}}{
         background: none;

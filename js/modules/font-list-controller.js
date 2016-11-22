@@ -13,8 +13,10 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
     $scope.filters = {};
     $scope.total = 0;
     $scope.userSignedIn = false;
-    $scope.sort = 'featured_rank';
+    $scope.sort = context.getSortOrder();
+    $scope.searchText = context.getSearchText();
     $scope.currentPage = context.fontListPageNum;
+    $scope.fontsFetched = false;
     var perPage = context.fontListCardsPerPage;
     var filterArray = [];
     var japaneseMode = context.isJapaneseBrowseMode();
@@ -80,6 +82,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       setCurrentPage(1);
       resetScrollPos();
       $scope.sort = sort;
+      context.setSortOrder(sort);
       loadFontFamilies();
     };
 
@@ -191,6 +194,19 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       return '';
     }
 
+    $scope.search = function() {
+      context.setSearchText($scope.searchText);
+      setCurrentPage(1);
+      resetScrollPos();
+      loadFontFamilies();
+    }
+
+    $scope.onSearchKeyup = function(event) {
+      if (event.keyCode == 13) {
+        $scope.search();
+      }
+    }
+
     function updateSampleText() {
       typekitAPI.getPreviews(
         {
@@ -259,8 +275,10 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
     };
 
     function loadFontFamilies(pageNum, callback) {
+      $scope.fontsFetched = false;
       typekitAPI.getFontFamilies({
           sort: $scope.sort,
+          q: $scope.searchText,
           page: pageNum || $scope.currentPage,
           filters: filterArray.toString(),
           per_page: perPage,
@@ -275,6 +293,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
             return;
           }
           $scope.$apply(function() {
+            $scope.fontsFetched = true;
             $scope.total = result.totalCount;
             $scope.pageTotal = Math.ceil($scope.total/perPage);
             $scope.data = result.data;

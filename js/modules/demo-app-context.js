@@ -5,6 +5,8 @@ module.exports = {
   fontListPageNum: 1,
   fontListCardsPerPage: 16,
   lastFontListScrollPos: 0,
+  searchText: '',
+  sort: 'featured_rank',
 
   imsClientID : 'TypekitPlatformDemoApp', // Replace this with your client-id
 
@@ -35,6 +37,21 @@ module.exports = {
 
   getClientID: function() {
     return this.imsClientID;
-  }
+  },
 
+  setSearchText: function(searchText) {
+    this.searchText = searchText;
+  },
+
+  getSearchText: function() {
+    return this.searchText;
+  },
+
+  setSortOrder: function(sort) {
+    this.sort = sort;
+  },
+
+  getSortOrder: function() {
+    return this.sort;
+  }
 }
