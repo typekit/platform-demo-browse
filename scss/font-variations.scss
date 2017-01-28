@@ -1,4 +1,5 @@
 $variations-left-padding: 15px;
+$adobe-blue: #1a9df5;
 
 .font-variations {
   @include content-common;
@@ -37,12 +38,12 @@ $variations-left-padding: 15px;
     border-bottom: 1px solid #ebebeb;
 
     .variation-sample-text-wrapper {
-      width: 36%;
+      width: 450px;
       color: rgb(102, 102, 102);
       position: relative;
 
       .sample-text-input {
-        width: calc(100% - 75px);
+        width: 390px;
         padding-left: 10px;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -51,6 +52,7 @@ $variations-left-padding: 15px;
         border-right: 1px solid #ccc;
         border: 1px solid #ebebeb;
         border-left-radius: 3px;
+        box-sizing: border-box;
 
         &:hover {
           border: 1px solid rgb(200,200,200);
@@ -59,18 +61,21 @@ $variations-left-padding: 15px;
 
       .variations-sample-select-btn {
         margin: 0px;
+        width: 60px;
         font-size: 13px;
         color: #666;
         border: 0px;
         background-color: white;
         padding-left: 10px;
-        padding-right: 18px;
+        padding-right: 10px;
         padding-top: 8px;
         padding-bottom: 9px;
         outline: none;
         border: 1px solid #ebebeb;
         border-right-radius: 3px;
         border-left: 1px solid rgba(0, 0, 0, 0.0);
+        max-height: 36px;
+        box-sizing: border-box;
 
         &:after {
           border: 4px solid transparent;
@@ -141,6 +146,7 @@ $variations-left-padding: 15px;
   .variation-card {
     padding-top: 20px;
     padding-bottom: 20px;
+    overflow: hidden;
 
     .variation-card-head {
       color: rgb(153, 153, 153);
@@ -152,12 +158,13 @@ $variations-left-padding: 15px;
 
     .sample-text {
       padding-top: 10px;
-      width: calc(100% - 140px);
+      width: calc(100% - 160px);
       overflow: hidden;
       padding-right: 5px;
       color: black;
       position: relative;
       font-size: 40px;
+      float: left;
 
       &:after {
         background: linear-gradient(to right, rgba(255,255,255,0), #fff);
@@ -174,6 +181,39 @@ $variations-left-padding: 15px;
       .variation-card-head {
         color: rgb(50, 50, 50);
       }
+    }
+
+    .purchase-btn {
+      float: right;
+      background-color: rgb(26, 157, 245);
+      border-bottom-color: rgb(26, 157, 245);
+      border-color: $adobe-blue;
+      border: 1px solid #07b57a;
+      border-radius: 3px;
+      color: white;
+      cursor: pointer;
+      font-family: "adobe-clean", "adobe-clean-han-japanese", "Helvetica Neue", Helvetica, sans-serif;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      &:hover {
+        background-color: darken($adobe-blue,10%);
+        border-color: darken($adobe-blue,10%);
+      }
+      &:focus {
+        outline: 0;
+      }
+    }
+    .cart-icon {
+      vertical-align: middle;
+    }
+    .purchase-btn svg path {
+        fill: #fff;
     }
   }
 

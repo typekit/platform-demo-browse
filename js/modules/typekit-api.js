@@ -2,6 +2,7 @@ var baseAPIUrl = 'https://cctypekit.adobe.io/v1/';
 var familiesEndpoint = baseAPIUrl + 'families';
 var filtersEndpoint = baseAPIUrl + 'filters';
 var previewsEndpoint = baseAPIUrl + 'previews';
+var variationAquireendpoint = baseAPIUrl + 'variations/acquire';
 
 var TypekitJS = function(accessToken, apiKey, browseMode) {
   var self = this;
@@ -53,10 +54,24 @@ var TypekitJS = function(accessToken, apiKey, browseMode) {
   }
 
   /**
+   * Gets jump url to aquire (purchase) font variations.
+   * @param params Object with one required field - 'ids' containing array of (string) font ids
+   * @param callback function with one argument - result. Result contains
+   *    two fields - data and error.
+   *
+  */
+  this.aquireFontVariations = function(params, callback) {
+    params = params || {};
+    networkHelper.post(variationAquireendpoint, null, JSON.stringify(params), null, function(result) {
+      processResult(result, callback);
+    })
+  }
+
+  /**
    * Gets meta data of a font family, identified by given slug
   */
-  this.getFontFamilySlug = function(slug, callback) {
-    networkHelper.get(familiesEndpoint + '/' + slug, null, null, function(result) {
+  this.getFontFamilySlug = function(slug, params, callback) {
+    networkHelper.get(familiesEndpoint + '/' + slug, params, null, function(result) {
       processResult(result, callback);
     });
   }
@@ -113,7 +128,7 @@ var NetworkHelper = function(accessToken, apiKey) {
       xhr.setRequestHeader('x-api-key', self.apiKey);
     }
     if (contentType) {
-      req.setRequestHeader('Content-type', contentType);
+      xhr.setRequestHeader('Content-type', contentType);
     }
 
     if (requestHeaders) {

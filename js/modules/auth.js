@@ -2,6 +2,7 @@ var utils = require('./utils');
 var context = require('./demo-app-context');
 var userSignedIn = false;
 var accessToken = null;
+var ready = false; // is auth module ready - true only when we get response from AdobeCreativeSDK.getAuthStatus?
 
 var auth = {
   signIn: function() {
@@ -19,11 +20,18 @@ var auth = {
   },
 
   getAccessToken: function() {
+    if (!accessToken && typeof adobeIMS !== 'undefined') {
+      return adobeIMS.getAccessToken();
+    }
     return accessToken;
   },
 
   isSignedInUser: function() {
     return userSignedIn;
+  },
+
+  isReady: function() {
+    return ready;
   }
 };
 
@@ -47,6 +55,8 @@ AdobeCreativeSDK.init({
 // check if user is logged-in by getting auth status
 AdobeCreativeSDK.getAuthStatus(function(result) {
   var userName = null;
+
+  ready = true;
 
   if (result.isAuthorized) {
     var userProfile = adobeIMS.getUserProfile();

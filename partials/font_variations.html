@@ -32,6 +32,10 @@
             >
             {{currentSampleText}}
         </div>
+        <button class="purchase-btn" ng-if="canDisplayPurchaseBtn(font)" ng-click="purchaseFont(font)">
+          <svg xmlns="http://www.w3.org/2000/svg" class='cart-icon' width="16.925" height="15.429" viewBox="0 0 16.925 15.429"><title>marketplace</title><path d="M14,10.289a0.645,0.645,0,0,0,.606-0.424l2.277-6A0.645,0.645,0,0,0,16.28,3h-13L2.538,0.989a0.645,0.645,0,0,0-.6-0.422H0.645a0.645,0.645,0,0,0,0,1.29H1.483L4.3,9.874,3.648,12.433a0.644,0.644,0,0,0,.606.866H14.442a0.643,0.643,0,0,0,.645-0.644A0.653,0.653,0,0,0,14.442,12l-9.266.01,0.412-1.721H14Zm1.356-6L13.551,9H5.587L3.756,4.291h11.6Z" transform="translate(0 -0.567)" fill="#333"></path><path d="M6,15a1,1,0,1,1-1-1A1,1,0,0,1,6,15Z" transform="translate(0 -0.567)" fill="#333"></path><path d="M14,15a1,1,0,1,1-1-1A1,1,0,0,1,14,15Z" transform="translate(0 -0.567)" fill="#333"></path></svg>
+          {{font.marketplace.localized_price.formatted}}
+        </button>
       </div>
     </div>
   </div>

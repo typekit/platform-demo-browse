@@ -1,12 +1,17 @@
 var app = require('./angular-app');
 var context = require('./demo-app-context');
 var utils = require('./utils');
+var auth = require('./auth');
+var typekit = require('./typekit-api');
+var FREE_TIER_IDENTIFIER = 'tier_0';
 
-app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontService',
-  function($scope, $http, $location, fontService){
+app.controller('FontVariationsCtrl', [ '$scope', '$http', '$location', '$routeParams', 'fontService',
+  function($scope, $http, $location, $routeParams, fontService) {
     $scope.gotoFontList = function() {
       $location.path('/font_list');
     }
+
+    var typekitAPI = new typekit.api(auth.getAccessToken(), context.getClientID());
 
     window.addEventListener('message', function(event){
       if (event.data.hasOwnProperty('type') && event.data.type === 'close-popups') {
@@ -14,6 +19,17 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
           if ($scope.showSampleTexts === true) {
             $scope.setShowSampleTexts(false);
           }
+        });
+      }
+    });
+
+    window.addEventListener('message', function(event) {
+      if (event.data.hasOwnProperty('type') && event.data.type === 'IMSReady') {
+        // this will be called if variations page is refreshed
+        $scope.$apply(function() {
+          typekitAPI = new typekit.api(auth.getAccessToken(), context.getClientID());
+          // call loadFontVariations only after IMS is ready and API object is created
+          loadFontVariations();
         });
       }
     });
@@ -26,6 +42,9 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
 
     $scope.currentSampleText = $scope.sampleTexts[$scope.selectedSampleTextIndex];
 
+    var collection = $routeParams.hasOwnProperty('collection') ? $routeParams.collection :
+      context.getCurrentCollection();
+
     if (!$scope.fontFamily) {
       // check in the local storage
       if (localStorage.fontFamily) {
@@ -36,7 +55,6 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
         return;
       }
     }
-    var typekitAPI = fontService.getTypekitAPI();
 
     typekitAPI.getPreviews(
       {
@@ -46,7 +64,7 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
       function(result) {
         if (result.error) {
           var msg = 'Error getting preview samples';
-          utils.handleError([msg, result], msg);
+          utils.handleError([ msg, result ], msg, result.error);
           return;
         }
         $scope.sampleTexts = $scope.sampleTexts.slice(0,1).concat(result.data);
@@ -91,44 +109,84 @@ app.controller('FontVariationsCtrl', ['$scope', '$http', '$location', 'fontServi
       }
     }
 
-    var loadFontVariations = function() {
-      typekitAPI.getFontFamilySlug($scope.fontFamily.slug, function(result){
+    function isAvailableForPurchase(font) {
+      return font.hasOwnProperty("marketplace")
+        && !font.marketplace.is_purchased_by_user
+        && font.marketplace.price_tier != FREE_TIER_IDENTIFIER
+        && font.marketplace.purchasable
+        // make sure the font is not part of full and trial libraries
+        && $scope.fontFamily.availability.trial == 0
+        && $scope.fontFamily.availability.full == 0;
+    }
+
+    $scope.canDisplayPurchaseBtn = function(font) {
+      return isAvailableForPurchase(font);
+    }
+
+    $scope.purchaseFont = function(font) {
+      if (!auth.isSignedInUser()) {
+        auth.signIn();
+        return;
+      }
+
+      typekitAPI.aquireFontVariations([ font.font.web.font_id ],
+      function(result) {
         if (result.error) {
-          var msg = 'Error getting font variations';
-          utils.handleError([msg, result], msg);
+          var msg = 'Error getting purchase URL';
+          utils.handleError([ msg, result ], msg, result.error);
           return;
         }
-
-        var fonts = [];
-        var fontFamilies = [];
-        // filter only web fonts
-        if (result.data.fonts) {
-          result.data.fonts.forEach(function(font) {
-            if (font.family.hasOwnProperty('web_id')){
-              fonts.push(font);
-              font._cssFontFamily = font.family.web_id + '-' + font.font.web.fvd;
-                fontFamilies.push({
-                  id: font.family.web_id,
-                  variations:[font.font.web.fvd],
-                });
-            }
-          });
-        }
-
-        if (fontFamilies.length > 0) {
-          TypekitPreview.load(fontFamilies);
-        }
-
-        $scope.$apply(function(){
-          $scope.fonts = fonts;
-        });
+        // open jump_url
+        // window.location.href = result.data.jump_url;
+        window.open(result.data.jump_url, 'tkBuyMarketplaceWindow');
       });
     }
 
-    loadFontVariations();
-}]);
+    var loadFontVariations = function() {
+      typekitAPI.getFontFamilySlug($scope.fontFamily.slug, {
+        include: [ collection ],
+        include_marketplace_data: true,
+      }, processFontVariationsResponse);
+    }
 
-app.directive('tkFocus', function(){
+    function processFontVariationsResponse(result) {
+      if (result.error) {
+        var msg = 'Error getting font variations';
+        utils.handleError([ msg, result ], msg, result.error);
+        return;
+      }
+      var fonts = [];
+      var fontFamilies = [];
+      // filter only web fonts
+      if (result.data.fonts) {
+        result.data.fonts.forEach(function(font) {
+          if (font.family.hasOwnProperty('web_id')){
+            fonts.push(font);
+            font._cssFontFamily = font.family.web_id + '-' + font.font.web.fvd;
+            fontFamilies.push({
+              id: font.family.web_id,
+              variations:[ font.font.web.fvd ],
+            });
+          }
+        });
+      }
+
+      if (fontFamilies.length > 0) {
+        TypekitPreview.load(fontFamilies);
+      }
+
+      $scope.$apply(function(){
+        $scope.fonts = fonts;
+      });
+    }
+
+    if (auth.isReady()) {
+      loadFontVariations();
+    }
+  }
+]);
+
+app.directive('tkFocus', function() {
   return {
     restrict: 'A',
     link: function(scope, elm, attrs) {

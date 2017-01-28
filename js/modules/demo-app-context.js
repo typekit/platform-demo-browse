@@ -7,6 +7,7 @@ module.exports = {
   lastFontListScrollPos: 0,
   searchText: '',
   sort: 'featured_rank',
+  currentCollection: 'full',
 
   imsClientID : 'TypekitPlatformDemoApp', // Replace this with your client-id
 
@@ -53,5 +54,13 @@ module.exports = {
 
   getSortOrder: function() {
     return this.sort;
-  }
+  },
+
+  setCurrentCollection: function(collection) {
+    this.currentCollection = collection;
+  },
+
+  getCurrentCollection: function() {
+    return this.currentCollection;
+  },
 }

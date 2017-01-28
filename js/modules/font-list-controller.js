@@ -3,6 +3,7 @@ var auth = require('./auth');
 var typekit = require('./typekit-api');
 var context = require('./demo-app-context');
 var utils = require('./utils');
+var typekitPreviewConfig = require('../../config/demo-app-config').typekit_preview;
 
 app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
   function($scope, $http, $location, fontService) {
@@ -17,6 +18,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
     $scope.searchText = context.getSearchText();
     $scope.currentPage = context.fontListPageNum;
     $scope.fontsFetched = false;
+    $scope.collection = context.getCurrentCollection();
     var perPage = context.fontListCardsPerPage;
     var filterArray = [];
     var japaneseMode = context.isJapaneseBrowseMode();
@@ -32,6 +34,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
           $scope.imsReady = true;
           $scope.userSignedIn = !!auth.isSignedInUser();
           $scope.userName = event.data.userName || '';
+          typekitAPI = new typekit.api(auth.getAccessToken(), context.getClientID());
         });
       }
     });
@@ -86,11 +89,18 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       loadFontFamilies();
     };
 
+    $scope.onChangeCollection = function() {
+      setCurrentPage(1);
+      resetScrollPos();
+      context.setCurrentCollection($scope.collection);
+      loadFontFamilies();
+    }
+
     $scope.onShowFontVariations = function(fontFamily) {
       context.captureFontListScrollPos();
       fontService.setCurrentFontFamily(fontFamily);
       localStorage.fontFamily = JSON.stringify(fontFamily);
-      $location.path('/font_variations');
+      $location.path('/font_variations/collection/' + context.getCurrentCollection());
     }
 
     $scope.filterChange = function(key, val, filter) {
@@ -215,7 +225,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
         function(result) {
           if (result.error) {
             var msg = 'Error getting preview samples';
-            utils.handleError([msg, result], msg);
+            utils.handleError([ msg, result ], msg, result.error);
             return;
           }
           if (result.data.length > 0) {
@@ -231,7 +241,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
         }, function(result) {
         if (result.error) {
           var msg = 'Error getting font filters';
-          utils.handleError([msg, result], msg);
+          utils.handleError([ msg, result ], msg, result.error);
           return;
         }
 
@@ -276,14 +286,16 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
 
     function loadFontFamilies(pageNum, callback) {
       $scope.fontsFetched = false;
+      var currentCollection = context.getCurrentCollection();
       typekitAPI.getFontFamilies({
           sort: $scope.sort,
           q: $scope.searchText,
           page: pageNum || $scope.currentPage,
           filters: filterArray.toString(),
           per_page: perPage,
-          include_all: false,
-          browse_mode: context.browseMode
+          browse_mode: context.browseMode,
+          include: [ currentCollection ],
+          include_marketplace_data: true,
         },
         function(result) {
           if (result.error) {
@@ -315,11 +327,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$location', 'fontService',
       restoreScrollPos = true;
     }
 
-    TypekitPreview.setup({
-      'auth_id': 'pda2',
-      'auth_token': '+dWpSpvT9ekd5/AnOgS4WnY1c0pqhwpehaQavQGfPH++6nj2gJimVtkGpB6rglRsbRFpsns6KLCHuSWmXcPLAcykN7h1qhcXRfZ6cQkJacopBI6xkhllv3GabDxNItuL',
-      'default_subset': 'default',
-    });
+    TypekitPreview.setup(typekitPreviewConfig);
 
     loadFilters();
     loadFontFamilies();

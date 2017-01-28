@@ -5,9 +5,17 @@
           <input type="text" class="search-input" placeholder="Search Typekit..." ng-model="searchText" ng-keyup="onSearchKeyup($event)">
           <button class="search-btn" ng-click="search()"></button>
         </div>
-        <div class="sorting">
+        <div class="collection-div sort-collection-dropdown-div">
+          <label for="collection-list">Collection:</label>
+          <select id="collection-list" class="collection-dropdown sort-collection-dropdown" ng-model="collection" ng-change="onChangeCollection()">
+            <option value="full">Full</option>
+            <option value="trial">Trial</option>
+            <option value="marketplace">Marketplace</option>
+          </select>
+        </div>
+        <div class="sorting sort-collection-dropdown-div">
           <label for="sort-by">Sort by:</label>
-          <select id="sort-by" class="sort-by-dropdown" ng-model="sort" ng-change="changeSort(sort)">
+          <select id="sort-by" class="sort-by-dropdown sort-collection-dropdown" ng-model="sort" ng-change="changeSort(sort)">
             <option value="featured_rank">Featured</option>
             <option value="newest">Newest</option>
             <option value="alpha">Name</option>

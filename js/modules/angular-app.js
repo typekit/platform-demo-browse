@@ -6,15 +6,18 @@ var app = angular.module('demoApp', ['ngRoute']);
 
 // Set routes
 app.config(['$routeProvider', function($routeProvider) {
+  var variationRoute = {
+    templateUrl: 'partials/font_variations.html',
+    controller: 'FontVariationsCtrl'
+  };
+
   $routeProvider
   .when('/font_list', {
     templateUrl: 'partials/font_list.html',
     controller: 'MainCtrl'
   })
-  .when('/font_variations', {
-    templateUrl: 'partials/font_variations.html',
-    controller: 'FontVariationsCtrl'
-  })
+  .when('/font_variations/collection/:collection?', variationRoute)
+  .when('/font_variations', variationRoute)
   .otherwise({
     redirectTo: '/font_list'
   });
