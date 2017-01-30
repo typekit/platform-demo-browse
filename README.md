@@ -27,4 +27,4 @@ $ npm install
 ```
 $ grunt
 ```
-* Go [`http://localhost:8443`](http://localhost:8433) in the browser
+* Go [`http://localhost:8443`](http://localhost:8443) in the browser
