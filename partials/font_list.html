@@ -1,0 +1,116 @@
+<div class="container" ng-show="imsReady">
+    <div class="families">
+      <div class="collection-tabs">
+        <div class="tab" ng-class="{'active': isCollectionActive('full')}" 
+          ng-click="changeCollection('full')">FULL</div>
+        <div class="tab" ng-class="{'active': isCollectionActive('trial')}" 
+          ng-click="changeCollection('trial')">TRIAL</div>
+        <div class="tab" ng-class="{'active': isCollectionActive('marketplace')}" 
+          ng-click="changeCollection('marketplace')">MARKETPLACE</div>
+      </div>
+      <div class="search-sort-div">
+        <div class="search-div">
+          <input type="text" class="search-input" placeholder="Search Typekit..." ng-model="searchText" ng-keyup="onSearchKeyup($event)">
+          <button class="search-btn" ng-click="search()"></button>
+        </div>
+        <div class="sorting sort-dropdown-div">
+          <label for="sort-by">Sort by:</label>
+          <select id="sort-by" class="sort-by-dropdown sort-dropdown" ng-model="sort" ng-change="changeSort(sort)">
+            <option value="featured_rank">Featured</option>
+            <option value="newest">Newest</option>
+            <option value="alpha">Name</option>
+          </select>
+        </div>
+      </div>
+      <div class="no-results-div" ng-if="fontsFetched && data.length === 0">
+          <div class="sorry-illustration"></div>
+          <h3>
+            Sorry, we couldn’t find any matches!
+          </h3>
+      </div>
+    <div class="card" ng-repeat="family in data" ng-click="onShowFontVariations(family)">
+      <style>
+      .wf-{{family.display_font.family.web_id}}-{{family.display_font.font.web.fvd}}-active .families .card .preview.{{family.display_font.family.web_id}}{
+        background: none;
+        color: black;
+      }
+      </style>
+      <div class="preview {{family.display_font.family.web_id}}"
+      style="
+      font-family: {{family.display_font.family.web_id}};
+      font-style: {{getVariantStyle(family.display_font.font.web.fvd)}};
+      font-weight: {{getVariantWeight(family.display_font.font.web.fvd)}};
+      ">
+        {{sampleText}}
+      </div>
+      <div class="meta">
+        <div class="family-name">
+          {{family.name}}
+        </div>
+        <div class="foundry-name">
+          {{family.foundry.name}}
+        </div>
+        <div class="number">
+        </div>
+      </div>
+      {{onCardLoaded($index)}}
+    </div>
+    <div class="pagination">
+      <div class="current-page pagination-info">
+        Page {{currentPage}} of {{pageTotal}}
+      </div>
+      <div class="prev-button pagination-button" ng-click="loadPrev()"
+      ng-hide="currentPage <= 1">PREVIOUS</div>
+      <div class="next-button pagination-button" ng-click="loadNext()"
+      ng-hide="currentPage >= pageTotal">NEXT</div>
+      <div class="total-family pagination-info">
+        {{total}} families total
+      </div>
+    </div>
+  </div>
+
+  <div class="filters-wrapper">
+    <div class="filters">
+      <h3>Browse Mode</h3>
+      <div class="browse-mode-filter">
+        <div ng-class="{selected: !isJapaneseMode()}" ng-click="setJapaneseMode(false)">Default</div>
+        <div ng-class="{selected: isJapaneseMode()}" ng-click="setJapaneseMode(true)">Japanese</div>
+      </div>
+      <div
+        class="category {{category.type}}"
+        ng-class="{ 'hidden': category.label=='Recommendations'}"
+        ng-repeat="category in filters"
+        ng-attr-id="{{dashCase(category.label)}}">
+        <h3>{{category.label}}</h3>
+        <div
+          class="filter"
+          ng-repeat="value in category.values"
+          ng-if="category.type!='group'">
+          <input type="checkbox" id="{{value.key}}" ng-model="value.setting"
+          ng-change="filterChange(value.key, value.setting, category)" >
+          <label for="{{value.key}}" class="filter-button"
+          id="filter-option-{{dashCase(category.label + ' ' + value.label ) + (!isJapaneseMode() ? '' : '-japanese')}}" ><img ng-src="
+https://platform-assets.typekit.net/{{value.slug}}.svg" alt="{{value.text}}"></label>
+          <h4>{{value.label}}</h4>
+        </div>
+        <div
+          class="category {{filter.type}}"
+          ng-repeat="filter in category.filters"
+          ng-attr-id="{{dashCase(filter.label)}}"
+          ng-if="category.type=='group'">
+          <div
+            class="filter"
+            ng-repeat="value in filter.values"
+            title="{{value.label}}">
+            <input type="checkbox" id="{{value.key}}" ng-model="value.setting"
+            ng-change="filterChange(value.key, value.setting, filter)" >
+            <label for="{{value.key}}" class="filter-button"
+            id="filter-option-{{dashCase(filter.label + ' ' + value.label) + (!isJapaneseMode() ? '' : '-japanese')}}" ><img ng-src="
+https://platform-assets.typekit.net/{{value.slug}}.svg" alt="{{value.text}}"></label>
+          </div>
+          <h4>{{filter.label}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,225 @@
+.font-variations {
+  @include content-common;
+  width: 100%;
+  padding-bottom: 100px;
+
+  .breadcrumb {
+    color: $grey;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 30px 0;
+    text-transform: uppercase;
+
+    a {
+      color: $dark;
+      text-decoration: none;
+      transition: color .2s ease;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  .main-heading {
+    padding: 35px 0 25px 0;
+
+    h1 {
+      color: $dark;
+      font-size: 48px;
+      font-weight: 300;
+    }
+
+    h4 {
+      color: $grey;
+      font-size: 22px;
+      font-weight: 400;
+      margin-top: 15px;
+
+      span.foundry-name {
+        color: $dark;
+      }
+    }
+  }
+
+  .variation-controls {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $light;
+
+    .variation-sample-text-wrapper {
+      width: 450px;
+      color: $dark;
+      position: relative;
+
+      .sample-text-input {
+        border-radius: 4px 0 0 4px;
+        border: 1px solid $light;
+        box-sizing: border-box;
+        font-size: 13px;
+        float: left;
+        height: 36px;
+        padding-left: 10px;
+        width: 414px;
+
+        &:hover {
+          border: 1px solid rgb(200,200,200);
+        }
+      }
+
+      .variations-sample-select-btn {
+        background-color: white;
+        border-bottom: 1px solid $light;
+        border-left: none;
+        border-radius: 0 4px 4px 0;
+        border-right: 1px solid $light;
+        border-top: 1px solid $light;
+        box-sizing: border-box;
+        height: 36px;
+        margin: 0px;
+        padding-bottom: 9px;
+        padding-top: 8px;
+        width: 36px;
+
+        &:after {
+          border: 5px solid transparent;
+          border-top-color: $dark;
+          border-top-width: 6px;
+          content: '';
+          position: relative;
+          left: 0px;
+          top: 12px;
+          height: 0px;
+          width: 0px;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .variation-sample-drop-down {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        left: 0;
+        margin-top: -1px;
+        right: 0;
+        z-index: 10;
+        position: absolute;
+
+        .variations-sample-text {
+          cursor: pointer;
+          font-size: 14px;
+          overflow: hidden;
+          padding: 8px 28px 8px 12px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:hover {
+            background-color: $blue;
+            color: white;
+          }
+        }
+      }
+
+    }
+  }
+
+
+  .header-tab {
+    border-bottom: 1px solid #ccc;
+    color: $dark;
+    font-size: 16px;
+    font-weight: 700;
+    height: 65px;
+    letter-spacing: 0.08em;
+    line-height: 65px;
+    text-transform: uppercase;
+
+    div {
+      display: inline-block;
+      margin-right: 30px;
+      position: relative;
+    }
+  }
+
+  .variation-card {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    overflow: hidden;
+
+    .variation-card-head {
+      color: rgb(153, 153, 153);
+      font-size: 14px;
+      height: 20px;
+      line-height: 20px;
+      letter-spacing: .02em;
+    }
+
+    .sample-text {
+      color: black;
+      float: left;
+      font-size: 40px;
+      line-height: 1.2em;
+      padding-right: 5px;
+      padding-top: 10px;
+      position: relative;
+      width: calc(100% - 160px);
+
+      &:after {
+        background: linear-gradient(to right, rgba(255,255,255,0), #fff);
+        bottom: 0;
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100px;
+      }
+    }
+
+    &:hover {
+      .variation-card-head {
+        color: rgb(50, 50, 50);
+      }
+    }
+
+    .purchase-btn {
+      float: right;
+      background-color: rgb(26, 157, 245);
+      border-bottom-color: rgb(26, 157, 245);
+      border-color: $blue;
+      border: 1px solid #07b57a;
+      border-radius: 3px;
+      color: white;
+      cursor: pointer;
+      font-family: "adobe-clean", "adobe-clean-han-japanese", "Helvetica Neue", Helvetica, sans-serif;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      &:hover {
+        background-color: darken($blue,10%);
+        border-color: darken($blue,10%);
+      }
+      &:focus {
+        outline: 0;
+      }
+    }
+    .cart-icon {
+      vertical-align: middle;
+    }
+    .purchase-btn svg path {
+        fill: #fff;
+    }
+  }
+
+  .variation-cards {
+    border-bottom: 1px solid $light;
+  }
+}
