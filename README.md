@@ -11,7 +11,7 @@ This app is built to validate the Typekit Platform API and set an example to sho
 
 ### Documentation
 
-* [Typekit Platform documentation at Adobe I/O](http://adobe.io/products/typekit)
+* [Typekit Platform documentation at Adobe I/O](https://www.adobe.io/apis/creativecloud/typekit.html)
 * [API endpoint documentation](https://docs.typekit.io)
 
 ### Installation
